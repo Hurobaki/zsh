@@ -4,5 +4,8 @@ files="$HOME/.zshrc"
 
 if [ -e $files ]; then
     $(cp $files $HOME/Saves/configs)
-    echo "=== $files copied ! ==="
+    if [ $? ]; then
+        echo "=== $files copied ! ==="
+        $(git add . && git commit -m "add new zsh version" && git push origin master)
+    fi
 fi
