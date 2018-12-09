@@ -7,5 +7,6 @@ if [ -e $files ]; then
     if [ $? ]; then
         echo "=== $files copied ! ==="
         $(git add . && git commit -m "add new zsh version" && git push origin master)
+        echo $?
     fi
 fi
