@@ -11,6 +11,7 @@ export ZSH="/Users/the3796/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
+# Thibaud theme : spaceShip
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Custom Oh-my-zsh settings
@@ -51,6 +52,8 @@ POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="001"
 POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="$DEFAULT_BACKGROUND"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="003"
 POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="$DEFAULT_BACKGROUND"
+
+POWERLEVEL9K_VCS_GIT_HOOKS=(vcs-detect-changes git-untracked git-aheadbehind git-stash git-remotebranch git-tagname)
 
 POWERLEVEL9K_TIME_BACKGROUND='255'
 #POWERLEVEL9K_COMMAND_TIME_FOREGROUND='gray'
@@ -109,14 +112,26 @@ POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND='black'
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-#plugins=(
-#  git,
-#  zsh-autosuggestions,
-#  z
-#)
-plugins=(zsh-autosuggestions zsh-syntax-highlighting  git z)
-
+#
+#plugins=(zsh-autosuggestions zsh-syntax-highlighting  git z)
+#
 source $ZSH/oh-my-zsh.sh
+
+source $HOME/.zplug/init.zsh
+zplug 'zsh-users/zsh-autosuggestions', at:master
+zplug "zsh-users/zsh-syntax-highlighting"
+zplug "plugins/git", from:oh-my-zsh
+zplug "buonomo/yarn-completion", defer:3
+zplug "rupa/z", as:plugin, use:z.sh, defer:3
+
+if ! zplug check --verbose; then
+    printf "Install? [y/N]: "
+    if read -q; then
+        echo; zplug install
+    fi
+fi
+
+zplug load
 
 # User configuration
 
@@ -146,6 +161,11 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
+
+if [ -f $HOME/.aliases ]; then
+  source $HOME/.aliases
+fi
+
 alias vi="nvim"
 
 # Android SDK
@@ -172,5 +192,3 @@ function killPort() {
   fi
 }
 
-#setopt noautomenu
-#setopt nomenucomplete
